@@ -54,8 +54,10 @@ class block_vpl_pylab extends block_base {
     $this->content->text = <<<EOT
 <script type="text/javascript">
   function close_modal(){
-    document.getElementById("openModal").style.opacity=0;
-    document.getElementById("openModal").style.pointerEvents="none";
+    var node = document.getElementById('openModal');
+    while (node.hasChildNodes()) {
+      node.removeChild(node.firstChild);
+    }
   }
   function hide_output(){
     if(document.getElementById("modal_output").style.display=="none"){
@@ -92,9 +94,9 @@ class block_vpl_pylab extends block_base {
         	var truc = document.getElementById("openModal");
         	truc.style.opacity=1;
         	truc.style.pointerEvents="auto";
-		var teacher="", output="", error="", display="", scfile="";
+		var teacher="", output="", error="", display="";
 		var lines = ct.split('\\n');
-		var go_teacher=false, go_binary=false, go_output = false, go_script = false, go_error = false, go_display = false;
+		var go_teacher=false, go_binary=false, go_output = false, go_error = false, go_display = false;
 		for(var i = 0;i < lines.length;i++){
 			var foo=lines[i];
 			if(go_binary){
@@ -118,9 +120,6 @@ class block_vpl_pylab extends block_base {
 			if(foo.match(/DISPLAY-E/)){
                         	go_display=false;
                 	}
-                        if(foo.match(/SCRIPT-E/)){
-                                go_script=false;
-                        }
 			if(go_teacher){
                                 teacher = teacher + foo;
                         }
@@ -133,9 +132,6 @@ class block_vpl_pylab extends block_base {
 			if(go_display){
                         	display = display + foo;
                 	}
-                        if(go_script){
-                                scfile = scfile + foo;
-                        }
 			if(foo.match(/TEACHER-S/)){
                                 go_teacher=true;
                         }
@@ -148,9 +144,6 @@ class block_vpl_pylab extends block_base {
 			if(foo.match(/DISPLAY-S/)){
                         	go_display=true;
                 	}
-			if(foo.match(/SCRIPT-S/)){
-                                go_script=true;
-                        }
 		}
 	        document.getElementById('openModal').innerHTML=teacher;	
 		document.getElementById('modal_output').innerText=output;
