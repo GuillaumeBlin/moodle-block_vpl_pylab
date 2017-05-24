@@ -58,6 +58,7 @@ class block_vpl_pylab extends block_base {
     while (node.hasChildNodes()) {
       node.removeChild(node.firstChild);
     }
+    node.style='';
   }
   function hide_output(){
     if(document.getElementById("modal_output").style.display=="none"){
