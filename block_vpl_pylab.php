@@ -89,7 +89,8 @@ class block_vpl_pylab extends block_base {
   var target = document.getElementById('vpl_results');
   if(target){ 
 	var observer = new MutationObserver(function(mutations) {
-	var ct = document.getElementById('ui-accordion-vpl_results-panel-2').textContent;
+	var ct = document.getElementById('ui-accordion-vpl_results-panel-1').innerHTML;
+ct=ct.replace(/<br\s*[\/]?>/gi, "\\n");
       	
 	if(ct.indexOf('BINARY')>-1){
         	var truc = document.getElementById("openModal");
