@@ -51,7 +51,12 @@ class block_vpl_pylab extends block_base {
     $this->content->footer = '';
     $id=$this->page->course->id;
     $p=substr($_SERVER['PHP_SELF'],0,strpos($_SERVER['PHP_SELF'],'mod/vpl')).'blocks/vpl_pylab';
-    $this->content->text = <<<EOT
+    $this->content->text="";
+    var script_sources = $this->config->config_script_src.split(",");
+    for (var x = 0; x < script_sources.length; x++) {
+  	    $this->content->text .="    <script type=\"text/javascript\" src=\"".script_sources[x]."\"></script>";
+    }
+    $this->content->text .= <<<EOT
 <script type="text/javascript">
   function close_modal(){
     var node = document.getElementById('openModal');
